@@ -1,0 +1,4 @@
+how handle the session on multiple devices
+
+25th April 2026
+    the remaining function configure and testing 
