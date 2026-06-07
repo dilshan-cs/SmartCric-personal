@@ -40,6 +40,7 @@ let presighn = -1;
 
 const totalRunsAndWicketEl = document.getElementById('team-score');
 const oversEl = document.getElementById('overs');
+const teamNameEl = document.getElementById('team-name');
 
 // Batsman Section 
 //batsman 1 
@@ -205,9 +206,11 @@ function updateDisplay(matchData, currentInning, inning1Data, inning2Data) {
     }
     if (currentInning === 1) {
         const inningBadge = document.getElementById('inning-badge');
+        if (teamNameEl) teamNameEl.textContent = inning1Data.teamName;
         if (inningBadge) inningBadge.textContent = 'Inning 1';
     } else {
         const inningBadge = document.getElementById('inning-badge');
+        if (teamNameEl) teamNameEl.textContent = inning2Data.teamName;
         if (inningBadge) inningBadge.textContent = 'Inning 2';
     }
 
@@ -365,13 +368,15 @@ function updateDisplay(matchData, currentInning, inning1Data, inning2Data) {
         }
     }
 
+    // const playersPerTeam = parseInt(document.getElementById('players-per-team-input')?.value.trim()) || 11;
+
     // --- Inning Termination & Requirement Logic ---
     const requirementSection = document.getElementById('requirement__section');
     if (currentInning === 1) {
         if (requirementSection) requirementSection.style.display = 'none';
 
         // Check for Inning 1 termination
-        if (wickets >= 10 || (matchData.totalOvers > 0 && overs >= matchData.totalOvers)) {
+        if (wickets >= playersPerTeam - 1 || (matchData.totalOvers > 0 && overs >= matchData.totalOvers)) {
             const modal = document.getElementById('second-inning-modal');
             if (modal) modal.classList.add('show');
         }
@@ -402,7 +407,7 @@ function updateDisplay(matchData, currentInning, inning1Data, inning2Data) {
             showResultModal(inning1Data, inning2Data);
         }
         // 2. Team 2 loses (All out or Overs completed)
-        else if (wickets >= 10 || (matchData.totalOvers > 0 && overs >= matchData.totalOvers)) {
+        else if (wickets >= playersPerTeam - 1 || (matchData.totalOvers > 0 && overs >= matchData.totalOvers)) {
             showResultModal(inning1Data, inning2Data);
         }
     }
@@ -422,7 +427,7 @@ async function addRuns(runs) {
 
     const response = await fetch('/getMatch');
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
 
     matchData = data.matchData;
     currentInning = data.currentInning;
@@ -544,6 +549,8 @@ function onNewPlayersClick() {
     if (modal) modal.classList.add('show');
 }
 
+let playersPerTeam = 11;
+
 async function handleNewPlayer() {
     const selectedInning = document.querySelector('input[name="inning-radio"]:checked')?.value || "1";
     const inning = parseInt(selectedInning, 10);
@@ -566,6 +573,9 @@ async function handleNewPlayer() {
         if (bn) availableBatsmen.push(bn);
     }
 
+    playersPerTeam = parseInt(document.getElementById('players-per-team-input')?.value.trim()) || 11;
+    const ballsPerOver = parseInt(document.getElementById('balls-per-over-input')?.value.trim()) || 6;
+
     const response = await fetch('/setPlayers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -575,7 +585,9 @@ async function handleNewPlayer() {
             teamName,
             totalOvers,
             batsmen,
-            availableBatsmen
+            availableBatsmen,
+            playersPerTeam,
+            ballsPerOver
         })
     });
 

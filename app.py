@@ -65,7 +65,9 @@ def initialInningData():
         'rrr': "0.00",
         'totalOvers': 0,
         'commentary': [],
-        'fallOfWickets': []
+        'fallOfWickets': [],
+        'ballsPerOver': 6,
+        'playersPerTeam':11
     }
 
 session_state = {
@@ -189,7 +191,7 @@ def get_match_data():
 def incrementOvers(overs):
     whole = int(overs)
     balls = round((overs - whole) * 10)
-    if balls >= 5:
+    if balls == (session_state['inning1Data']['ballsPerOver']-1):
         return float(whole + 1)
     else:
         return float(f"{whole}.{balls + 1}")
@@ -463,7 +465,12 @@ def setPlayers():
         match_data['batsmen'] = data['batsmen']
     if 'availableBatsmen' in data:
         match_data['availableBatsmen'] = data['availableBatsmen']
-    
+
+    if 'playersPerTeam' in data:
+        match_data['playersPerTeam'] = data['playersPerTeam']
+    if 'ballsPerOver' in data:
+        match_data['ballsPerOver'] = data['ballsPerOver']
+
     save_to_db()
         
     return jsonify({
