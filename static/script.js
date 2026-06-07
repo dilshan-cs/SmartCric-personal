@@ -20,6 +20,7 @@ let matchData = {};
 let inning1Data = {};
 let inning2Data = {};
 let currentInning = 1;
+let presighn = -1;
 
 // const syncChannel = new BroadcastChannel('cricket_scoring_sync');
 
@@ -354,7 +355,13 @@ function updateDisplay(matchData, currentInning, inning1Data, inning2Data) {
     if (overs > 0 && overs % 1 === 0 && !matchData.isOverChanging) {
         // Only show if wickets < 10 and overs < totalOvers
         if (wickets < 10 && (matchData.totalOvers === 0 || overs < matchData.totalOvers)) {
-            onNewBowlerClick();
+            if (matchData.overs !== presighn) {
+                onNewBowlerClick();
+                presighn = matchData.overs;
+            }
+        }
+        else {
+            presighn = -1;
         }
     }
 
@@ -1104,8 +1111,8 @@ async function onNewBowlerClick() {
         });
     }
 
-    // const modal = document.getElementById('new-bowler-modal');
-    // if (modal) modal.classList.add('show');
+    const modal = document.getElementById('new-bowler-modal');
+    if (modal) modal.classList.add('show');
 }
 
 async function confirmNewBowler(name) {
