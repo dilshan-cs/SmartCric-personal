@@ -10,7 +10,7 @@ from config import MONGO_URI
 app = Flask(__name__)   
 
 
-client = MongoClient(MONGO_URI)
+client = MongoClient("mongodb+srv://admin:Mwv0myG2aLw2Kt84@cluster0.pv1htw5.mongodb.net/")
 TOURNEMENT_NAME = "__"
 
 # Function to get the current collection dynamically
@@ -19,7 +19,6 @@ def get_matches_collection():
     sanitized_name = TOURNEMENT_NAME.replace(" ", "_")
     db_name = f'cricket_db_{sanitized_name}'
     return client[db_name]['matches']
-
 
 
 
