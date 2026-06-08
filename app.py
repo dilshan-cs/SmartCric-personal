@@ -9,10 +9,6 @@ from datetime import datetime
 from config import MONGO_URI
 app = Flask(__name__)   
 
-# MongoDB Configuration
-# Replace <username> and <password> with your Atlas credentials 
-# MONGO_URI = "mongodb+srv://admin:Mwv0myG2aLw2Kt84@cluster0.pv1htw5.mongodb.net/?appName=Cluster0"   
-# MONGO_URI = "mongodb+srv://admin:Mwv0myG2aLw2Kt84@cluster0.pv1htw5.mongodb.net/"     
 
 client = MongoClient(MONGO_URI)
 TOURNEMENT_NAME = "__"
