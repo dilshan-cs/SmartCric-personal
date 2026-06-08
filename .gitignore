@@ -1,0 +1,24 @@
+# Database & Secret Configurations
+config.py
+.env
+
+# Python virtual environment
+venv/
+ENV/
+env/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE / Editor folders
+.vscode/
+.idea/
+.project
+.pydevproject
+
+# OS specific files
+Thumbs.db
+Desktop.ini
+.DS_Store
