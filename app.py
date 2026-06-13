@@ -356,6 +356,16 @@ def setNewBatsman():
     striker_idx = 0 if match_data['batsmen'][0]['isStriker'] else 1
     
     # Replace the out batsman with new one
+    # if match_data['wickets'] == match_data['playersPerTeam'] - 2:
+    #     match_data['batsmen'][striker_idx] = {
+    #         'name': 'Batsman-',  # Reverts to placeholder filtered out by the UI
+    #         'runs': 0,
+    #         'balls': 0,
+    #         'fours': 0,
+    #         'sixes': 0,
+    #         'isStriker': False
+    #     }      
+    # else:
     match_data['batsmen'][striker_idx] = {
         'name': new_batsman_name,
         'runs': 0,
@@ -365,11 +375,11 @@ def setNewBatsman():
         'isStriker': True
     }
     
-    # Remove from available
+    # Remove from available 
     if new_batsman_name in match_data['availableBatsmen']:
         match_data['availableBatsmen'].remove(new_batsman_name)
     
-    save_to_db()
+    save_to_db() 
         
     return jsonify({
         'status': 'success',
