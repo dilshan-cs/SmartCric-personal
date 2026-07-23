@@ -1,0 +1,22 @@
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+.git/
+.gitignore
+
+# Local secret config — MONGO_URI is injected via environment variable instead
+config.py
+.env
+
+.vscode/
+.idea/
+
+output/
+*.docx
+structure.txt
+plan.txt
+README.md
