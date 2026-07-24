@@ -1,3 +1,4 @@
+# pyrefly: ignore [missing-import]
 from flask import Blueprint, request, jsonify
 
 from app.services import match_service
