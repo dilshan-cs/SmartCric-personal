@@ -93,7 +93,7 @@ const projectedScoreEl = document.getElementById('projected-score');
 
 async function init() {
     try {
-        const response = await fetch('/getMatch');
+        const response = await fetch('/api/match/getMatch');
         const data = await response.json();
         // console.log(data);
         // let matchData;
@@ -140,7 +140,7 @@ function broadcastUpdate() {
 
 // async function init() {
 //     try {
-//         const response = await fetch('/getMatch');
+//         const response = await fetch('/api/match/getMatch');
 //         const data = await response.json();
 //         if (data && data.matchData && data.matchData.totalRuns !== undefined) {
 //             matchData = data.matchData;
@@ -419,13 +419,13 @@ function updateDisplay(matchData, currentInning, inning1Data, inning2Data) {
 
 async function addRuns(runs) {
     // matchData.totalRuns += runs;
-    fetch('/addRuns', {
+    fetch('/api/match/addRuns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ runs })
     });
 
-    const response = await fetch('/getMatch');
+    const response = await fetch('/api/match/getMatch');
     const data = await response.json();
     // console.log(data);
 
@@ -488,7 +488,7 @@ async function addRuns(runs) {
 }
 
 async function setStriker(index) {
-    const response = await fetch('/setStriker', {
+    const response = await fetch('/api/match/setStriker', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ index })
@@ -519,7 +519,7 @@ function openPopOutScoreboard() {
 // });
 
 async function resetMatch() {
-    const response = await fetch('/newMatch', { method: 'POST' });
+    const response = await fetch('/api/match/newMatch', { method: 'POST' });
     const data = await response.json();
     matchData = data.data.matchData;
     currentInning = data.data.currentInning;
@@ -576,7 +576,7 @@ async function handleNewPlayer() {
     playersPerTeam = parseInt(document.getElementById('players-per-team-input')?.value.trim()) || 11;
     const ballsPerOver = parseInt(document.getElementById('balls-per-over-input')?.value.trim()) || 6;
 
-    const response = await fetch('/setPlayers', {
+    const response = await fetch('/api/match/setPlayers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -642,7 +642,7 @@ function clearNewPlayerInputs() {
 }
 
 async function showMatchOverview() {
-    const response = await fetch('/matchOverview');
+    const response = await fetch('/api/match/matchOverview');
     const data = await response.json();
 
     const i1 = data.inning1Data;
@@ -783,7 +783,7 @@ function closeMatchOverviewModal() {
 }
 
 async function swapCurrentInning() {
-    const response = await fetch('/swapInning', { method: 'POST' });
+    const response = await fetch('/api/match/swapInning', { method: 'POST' });
     const data = await response.json();
     matchData = data.data.matchData;
     currentInning = data.data.currentInning;
@@ -826,7 +826,7 @@ async function generateDocx() {
     }
 
     // Fetch latest overview data
-    const response = await fetch('/matchOverview');
+    const response = await fetch('/api/match/matchOverview');
     const data = await response.json();
     const i1 = data.inning1Data;
     const i2 = data.inning2Data;
@@ -971,7 +971,7 @@ function closeResultModal() {
 }
 
 async function handleUndo() {
-    const response = await fetch('/undo', { method: 'POST' });
+    const response = await fetch('/api/match/undo', { method: 'POST' });
     const data = await response.json();
 
     if (data.status === 'success') {
@@ -1000,7 +1000,7 @@ async function addCustomExtra() {
     const runs = parseInt(runsInput.value) || 0;
     const isByeOnNb = document.getElementById('bye-runs-for-noball')?.checked || false;
 
-    const response = await fetch('/addExtra', {
+    const response = await fetch('/api/match/addExtra', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1025,7 +1025,7 @@ async function fallWickets(type = 'bowled') {
     const isInvalid = document.getElementById('invalid-ball-radio')?.checked || false;
     const isByeOnNb = document.getElementById('bye-runs-for-noball')?.checked || false;
 
-    const response = await fetch('/addWicket', {
+    const response = await fetch('/api/match/addWicket', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1068,7 +1068,7 @@ function showNewBatsmanModal() {
 }
 
 async function confirmNewBatsman(name) {
-    const response = await fetch('/setNewBatsman', {
+    const response = await fetch('/api/match/setNewBatsman', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ batsmanName: name })
@@ -1090,7 +1090,7 @@ function doNothing3() {
 }
 
 async function onNewBowlerClick() {
-    const response = await fetch('/getMatch');
+    const response = await fetch('/api/match/getMatch');
     const data = await response.json();
 
     const oppositeInningData = data.currentInning === 1 ? data.inning2Data : data.inning1Data;
@@ -1128,7 +1128,7 @@ async function onNewBowlerClick() {
 }
 
 async function confirmNewBowler(name) {
-    const response = await fetch('/setBowler', {
+    const response = await fetch('/api/match/setBowler', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bowlerName: name })

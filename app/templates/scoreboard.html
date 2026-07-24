@@ -612,7 +612,7 @@
         // Poll backend every 2 seconds as fallback/integration
         async function pollBackend() {
             try {
-                const response = await fetch('/getMatch');
+                const response = await fetch('/api/match/getMatch');
                 const data = await response.json();
                 if (data && data.matchData && data.matchData.totalRuns !== undefined) {
                     updateUI(data);
